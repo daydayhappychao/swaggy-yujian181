@@ -1,0 +1,30 @@
+.el-header {
+  background-color: #b3c0d1;
+  color: #333;
+  line-height: 60px;
+}
+
+.el-aside {
+  color: #333;
+}
+.logo {
+  height: 60px;
+  line-height: 60px;
+  text-align: center;
+  font-size: 18px;
+}
+.left-bar-container{
+  height:calc(100vh - 60px);
+  transition: width 0.7s;
+}
+.left-bar-container::-webkit-scrollbar{
+    display: none;
+}
+.el-menu-vertical-demo{
+  &::-webkit-scrollbar{
+      display: none;
+  }
+  height: 100%;
+  width: 100%;
+  overflow: scroll
+}

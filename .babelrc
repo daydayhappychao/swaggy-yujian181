@@ -13,5 +13,11 @@
       "plugins": ["transform-es2015-modules-commonjs"]
     }
   },
-  "plugins": ["transform-vue-jsx"]
+  "plugins": ["jsx-v-model", "transform-vue-jsx",  [
+    "component",
+    {
+      "libraryName": "element-ui",
+      "styleLibraryName": "theme-chalk"
+    }
+  ]]
 }
