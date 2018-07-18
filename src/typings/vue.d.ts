@@ -6,11 +6,13 @@ declare module '*.vue' {
 
 // 全局变量设置
 declare global {
+  interface Element {
+    validate: any
+  }
 }
 
-// iview 全局方法
 declare module 'vue/types/vue' {
   interface Vue {
-    [prop: string]: any;
+    validate: any
   }
 }

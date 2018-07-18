@@ -7,7 +7,10 @@ module.exports = merge(base, {
   mode: 'development',
   devServer: {
     contentBase: './dist',
-    hot: true
+    hot: true,
+    proxy: {
+      "/api/**/*": 'http://localhost:7001/'
+    }
   },
   plugins:[
     new webpack.NamedModulesPlugin(),
