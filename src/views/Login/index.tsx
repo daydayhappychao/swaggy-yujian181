@@ -1,5 +1,6 @@
 import { Vue, Component } from 'vue-property-decorator';
 import axios from 'axios';
+import userStore from '@/stores/userStore';
 import './index.scss';
 
 @Component
@@ -11,9 +12,7 @@ export default class Login extends Vue {
   public loginAction = () => {
     (this.$refs.loginForm as Vue).validate((valid: boolean) => {
       if (valid) {
-        axios.post('/api/login', this.loginForm).then(data => {
-          console.log(data);
-        })
+        userStore.login(this.loginForm.username, this.loginForm.password);
       } else {
         this.$notify.info('请输入正确的用户名和密码!');
       }
@@ -37,7 +36,6 @@ export default class Login extends Vue {
               v-model={this.loginForm.username}
               autoComplete='on'
               placeholder='用户名'
-
             />
           </el-form-item>
 

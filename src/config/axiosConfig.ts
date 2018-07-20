@@ -12,7 +12,7 @@ export default (entity: CombinedVueInstance<Vue, object, object, object, Record<
       console.log(e);
     }
     return response;
-  }, (error) => {
+  }, (error: any) => {
     return Promise.reject(error);
   });
 }
