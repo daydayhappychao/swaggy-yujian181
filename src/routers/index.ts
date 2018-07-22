@@ -1,11 +1,18 @@
 import VueRouter from 'vue-router';
 import Login from '@/views/Login';
 import Home from '@/views/Home';
+import BusinessCate from '@/views/BusinessCate';
+import BusinessInfo from '@/views/BusinessInfo';
+import YoungCardNopass from '@/views/YoungCardNopass'
+
 import userStore, { UserInfo } from '@/stores/userStore';
 
 const routes = [
   { path: '/home', component: Home, name: 'home' },
   { path: '/login', component: Login, name: 'login' },
+  { path: '/businessCate', component: BusinessCate, name: 'businessCate' },
+  { path: '/businessInfo', component: BusinessInfo, name: 'businessInfo' },
+  { path: '/youngCardNopass', component: YoungCardNopass, name: 'youngCardNopass' },
 ];
 
 const router = new VueRouter({

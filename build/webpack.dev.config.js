@@ -11,7 +11,8 @@ module.exports = merge(base, {
     historyApiFallback: true,
     publicPath: '/',
     proxy: {
-      "/api/**/*": 'http://localhost:7001/'
+      "/api/**/*": 'http://localhost:7001/',
+      "/public/**/*": 'http://localhost:7001/'
     }
   },
   plugins:[

@@ -9,9 +9,8 @@ import './index.scss';
 @observer
 @Component
 export default class Layout extends Vue {
-  private collapse = true;
+  private collapse = false;
   public handleUserDropdown = (command: number) => {
-    console.log(command);
     // userMenu[command].method();
   }
   public render() {
