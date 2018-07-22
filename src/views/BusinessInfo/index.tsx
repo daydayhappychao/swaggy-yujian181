@@ -108,18 +108,6 @@ export default class BusinessCate extends Vue {
         >
           <el-form label-position='right' label-width='80px' model={this.addDialogForm} ref='addDialogShow' >
             <el-form-item label='封面图'>
-              {/* <el-upload
-                action='/api/upload'
-                multiple={false}
-                show-file-list={true}
-                auto-upload
-                list-type={'picture'}
-                limit={1}
-                on-change={this.test}
-                on-success={(res: any, file: any, filelist: any) => {
-                  console.log(222222);
-                }}
-              > */}
               <el-button
                 size='mini'
                 type='primary'
@@ -143,7 +131,6 @@ export default class BusinessCate extends Vue {
                   });
                 }
               }} ref='file' style={{ display: 'none' }} />
-              {/* </el-upload> */}
             </el-form-item>
             <el-form-item label='商户名称'
               prop='name'
