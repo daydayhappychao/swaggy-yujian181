@@ -20,7 +20,7 @@ const menu: Menu[] = [
     ],
   },
   {
-    icon: 'el-icon-card',
+    icon: 'el-icon-edit-outline',
     name: '青年卡',
     children: [
       {
