@@ -1,9 +1,10 @@
-import VueRouter from 'vue-router';
+import VueRouter, { RouteConfig } from 'vue-router';
 import Login from '@/views/Login';
 import Home from '@/views/Home';
 import userStore, { UserInfo } from '@/stores/userStore';
 
-const routes = [
+const routes: RouteConfig[] = [
+  { path: '/', redirect: '/home' },
   { path: '/home', component: Home, name: 'home' },
   { path: '/login', component: Login, name: 'login' },
 ];

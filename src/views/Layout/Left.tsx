@@ -15,6 +15,10 @@ class Left extends Vue {
         active-text-color={BAR_ACTIVE_COLOR}
         collapse={this.$props.collapse}
       >
+        <el-menu-item index='0'>
+          <i class='fa fa-home'></i>
+          <span slot='title'>首页</span>
+        </el-menu-item>
         {
           tabBar.map((menu, index) => (
             <el-submenu key={index} index={index.toString()}>
@@ -31,7 +35,7 @@ class Left extends Vue {
                       onClick={() => {
                         this.$router.push(child.path);
                       }}
-                      >
+                    >
                       {child.name}
                     </el-menu-item>
                   ))
@@ -44,4 +48,4 @@ class Left extends Vue {
     );
   }
 }
-export default ( Left as any );
+export default (Left as any);

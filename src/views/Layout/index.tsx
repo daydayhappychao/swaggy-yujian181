@@ -11,8 +11,7 @@ import './index.scss';
 export default class Layout extends Vue {
   private collapse = true;
   public handleUserDropdown = (command: number) => {
-    console.log(command);
-    // userMenu[command].method();
+    userMenu[command].method();
   }
   public render() {
     return (
@@ -37,16 +36,15 @@ export default class Layout extends Vue {
           </div>
           <div style={{ flex: 1 }}></div>
           <div>
-            <el-dropdown command={this.handleUserDropdown}>
+            <el-dropdown onCommand={this.handleUserDropdown}>
               <i class='el-icon-setting' style={{ marginRight: '15px', color: BAR_TEXT_COLOR }}></i>
               <el-dropdown-menu slot='dropdown'>
                 {
                   userMenu.map((v, k) =>
                     <el-dropdown-item
-                      key={k}
                       command={k}>
                       {v.name}
-                    </el-dropdown-item>
+                    </el-dropdown-item>,
                   )
                 }
               </el-dropdown-menu>
@@ -56,7 +54,7 @@ export default class Layout extends Vue {
         </el-header>
         <el-container>
           <el-aside
-            width={this.collapse ? '64px' : '200px'}
+            width='auto'
             class='left-bar-container'
           >
             <Left collapse={this.collapse} />

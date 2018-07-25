@@ -15,4 +15,4 @@ export default (entity: CombinedVueInstance<Vue, object, object, object, Record<
   }, (error: any) => {
     return Promise.reject(error);
   });
-}
+};

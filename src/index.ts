@@ -7,6 +7,7 @@ import axionConfig from './config/axiosConfig';
 
 
 import './index.scss';
+import 'font-awesome/css/font-awesome.min.css';
 
 Vue.use(ElementUI);
 Vue.use(VueRouter);

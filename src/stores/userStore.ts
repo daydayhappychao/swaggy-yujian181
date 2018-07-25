@@ -26,7 +26,6 @@ class UserStore {
   }
 
   @observable public logout = () => {
-    debugger;
     this.userInfo.username = '';
     localStorage.clear();
     router.push('/login');
