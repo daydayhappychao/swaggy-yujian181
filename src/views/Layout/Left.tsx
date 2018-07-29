@@ -15,6 +15,15 @@ class Left extends Vue {
         active-text-color={BAR_ACTIVE_COLOR}
         collapse={this.$props.collapse}
       >
+        <el-menu-item
+            onClick={() => {
+              this.$router.push('/home');
+            }}
+            index='800820'
+            >
+            <i class='el-icon-printer'></i>
+            <span slot='title'>首页图</span>
+        </el-menu-item>
         {
           tabBar.map((menu, index) => (
             <el-submenu key={index} index={index.toString()}>

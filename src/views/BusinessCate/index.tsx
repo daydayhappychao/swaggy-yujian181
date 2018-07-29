@@ -7,11 +7,10 @@ import businessStore from '@/stores/businessStore';
 @Component
 export default class BusinessCate extends Vue {
   public addDialogShow = false;
-  public addDialogForm = { name: '', weight: 0 };
+  public addDialogForm: { name: string, weight: number, id?: string } = { name: '', weight: 0 };
   public beforeCreate() {
     businessStore.getCateList();
   }
-
   public render() {
     return (
       <el-container>
@@ -22,7 +21,10 @@ export default class BusinessCate extends Vue {
                 <el-button
                   size='mini'
                   type='primary'
-                  onClick={() => { this.addDialogShow = true; }}>新增分类</el-button>
+                  onClick={() => {
+                    this.addDialogForm = { name: '', weight: 0 };
+                    this.addDialogShow = true;
+                  }}>新增分类</el-button>
               </el-col>
             </el-row>
           </div>
@@ -50,7 +52,12 @@ export default class BusinessCate extends Vue {
                 <div >
                   <el-button
                     size='mini'
-                    click='handleEdit(scope.$index, scope.row)'>编辑</el-button>
+                    onClick={() => {
+                      this.addDialogForm = scope.row;
+                      this.addDialogForm.id = scope.row._id;
+                      this.addDialogShow = true;
+                    }}
+                  >编辑</el-button>
                   <el-button
                     size='mini'
                     type='danger'
@@ -61,7 +68,7 @@ export default class BusinessCate extends Vue {
         </el-table >
 
         <el-dialog
-          title='新增分类'
+          title={`${this.addDialogForm.id ? '編輯' : '新增'}分类`}
           visible={this.addDialogShow}
           width='30%'
           before-close={() => { this.addDialogForm = { name: '', weight: 0 }; this.addDialogShow = false; }}
@@ -90,7 +97,9 @@ export default class BusinessCate extends Vue {
                 <el-button type='primary' onClick={() => {
                   (this.$refs.addDialogShow as Vue).validate((valid: boolean) => {
                     if (valid) {
-                      businessStore.createCate(this.addDialogForm.name, this.addDialogForm.weight);
+                      businessStore.createCate(this.addDialogForm.name,
+                        this.addDialogForm.weight,
+                        this.addDialogForm.id);
                       this.addDialogForm = { name: '', weight: 0 };
                       this.addDialogShow = false;
                     }

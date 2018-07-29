@@ -9,8 +9,8 @@ class BusinessStore {
   @action public getCateList = () => {
     axios.get('/api/listBusinessCate').then(this.setCateList);
   }
-  @action public createCate = (name: string, weight: number) => {
-    axios.post('/api/createBusinessCate', { name, weight }).then(this.setCateList);
+  @action public createCate = (name: string, weight: number, id?: string) => {
+    axios.post(`/api/createBusinessCate${id ? '/' + id : ''}`, { name, weight }).then(this.setCateList);
   }
 
   @action public deleteCate = (id: string) => {
@@ -18,7 +18,7 @@ class BusinessStore {
   }
 
   @action public createInfo = (data: { [ket: string]: any }) => {
-    axios.post('/api/createBusinessInfo', data).then(this.setInfoList);
+    axios.post(`/api/createBusinessInfo${data.id ? '/' + data.id : ''}`, data).then(this.setInfoList);
   }
   @action public getInfoList = () => {
     axios.get('/api/listBusinessInfo').then(this.setInfoList);

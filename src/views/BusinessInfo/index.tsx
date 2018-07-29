@@ -8,7 +8,9 @@ import businessStore from '@/stores/businessStore';
 @Component
 export default class BusinessCate extends Vue {
   public addDialogShow = false;
-  public addDialogForm = { avatar: '', name: '', weight: 0, phone: '', introduction: '', discount: '', cate: '', address: '' };
+  public addDialogForm:
+    { avatar: string, name: string, weight: number, phone: string, introduction: string, discount: string, cate: string, address: string, id?: string } =
+    { avatar: '', name: '', weight: 0, phone: '', introduction: '', discount: '', cate: '', address: '' };
   public beforeCreate() {
     businessStore.getCateList();
     businessStore.getInfoList();
@@ -23,7 +25,10 @@ export default class BusinessCate extends Vue {
                 <el-button
                   size='mini'
                   type='primary'
-                  onClick={() => { this.addDialogShow = true; }}>新增商家</el-button>
+                  onClick={() => {
+                    this.addDialogForm = { avatar: '', name: '', weight: 0, phone: '', introduction: '', discount: '', cate: '', address: '' };
+                    this.addDialogShow = true;
+                  }}>新增商家</el-button>
               </el-col>
             </el-row>
           </div>
@@ -35,8 +40,7 @@ export default class BusinessCate extends Vue {
           <el-table-column
             fixed
             width='120px'
-            prop='name'
-            label='商户名称'>
+            label='logo'>
             {
               (scope: any) => (
                 <img style={{ maxWidth: '100%' }} src={`/public/${scope.row.avatar}`} />
@@ -68,7 +72,7 @@ export default class BusinessCate extends Vue {
             {
               (scope: any) => (
                 <div>{
-                  businessStore.cateList.filter((v) => v._id === scope.row.cate)[0].name
+                  (businessStore.cateList.filter((v) => v._id === scope.row.cate)[0] || {}).name
                 }</div>
               )
             }
@@ -87,7 +91,11 @@ export default class BusinessCate extends Vue {
                 <div >
                   <el-button
                     size='mini'
-                    click='handleEdit(scope.$index, scope.row)'>编辑</el-button>
+                    onClick={() => {
+                      this.addDialogForm = Object.assign(scope.row, { id: scope.row._id });
+                      this.addDialogShow = true;
+                    }}
+                  >编辑</el-button>
                   <el-button
                     size='mini'
                     type='danger'
@@ -98,11 +106,12 @@ export default class BusinessCate extends Vue {
         </el-table >
 
         <el-dialog
-          title='新增商家'
+          title={`${this.addDialogForm.id ? '编辑' : '新增'}商家`}
           visible={this.addDialogShow}
           width='70%'
           before-close={() => {
-            this.addDialogForm = { avatar: '', name: '', weight: 0, phone: '', introduction: '', discount: '', cate: '', address: '' };
+            this.addDialogForm =
+              { avatar: '', name: '', weight: 0, phone: '', introduction: '', discount: '', cate: '', address: '' };
             this.addDialogShow = false;
           }}
         >

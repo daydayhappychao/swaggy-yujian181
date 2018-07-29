@@ -50,6 +50,7 @@
     "element-ui": "^2.4.4",
     "mobx": "^5.0.3",
     "mobx-vue": "^2.0.7",
+    "moment": "^2.22.2",
     "vue": "^2.5.16",
     "vue-class-component": "^6.2.0",
     "vue-property-decorator": "^7.0.0",

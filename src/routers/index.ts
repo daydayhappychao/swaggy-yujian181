@@ -3,7 +3,8 @@ import Login from '@/views/Login';
 import Home from '@/views/Home';
 import BusinessCate from '@/views/BusinessCate';
 import BusinessInfo from '@/views/BusinessInfo';
-import YoungCardNopass from '@/views/YoungCardNopass'
+import YoungCardNopass from '@/views/YoungCardNopass';
+import YoungCardNopass2 from '@/views/YoungCardNopass/index2';
 
 import userStore, { UserInfo } from '@/stores/userStore';
 
@@ -13,6 +14,7 @@ const routes = [
   { path: '/businessCate', component: BusinessCate, name: 'businessCate' },
   { path: '/businessInfo', component: BusinessInfo, name: 'businessInfo' },
   { path: '/youngCardNopass', component: YoungCardNopass, name: 'youngCardNopass' },
+  { path: '/youngCardpass', component: YoungCardNopass2, name: 'youngCardpass' },
 ];
 
 const router = new VueRouter({
