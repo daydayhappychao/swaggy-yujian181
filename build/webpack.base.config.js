@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { cssLoaders } = require('./util');
@@ -87,10 +88,15 @@ module.exports = {
     },
     output: {
         filename: '[name].bundle.[hash:5].js',
+        chunkFilename: '[name].bundle.[hash:5].js',
         path: path.resolve(__dirname, '..', 'dist'),
         publicPath: '/'
     },
-
+    // optimization: {
+    //     splitChunks: {
+    //         chunks: 'all'
+    //     }
+    // },
     plugins: [
         new CleanWebpackPlugin(['dist']),
         new HtmlWebpackPlugin({

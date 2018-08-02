@@ -6,16 +6,16 @@ module.exports = merge(base, {
   devtool: 'inline-source-map',
   mode: 'development',
   devServer: {
-    contentBase: './dist',
+    contentBase: false,
     hot: true,
+    port: 9527,
     historyApiFallback: true,
-    publicPath: '/',
     proxy: {
       "/api/**/*": 'http://localhost:7001/'
     }
   },
   plugins:[
     new webpack.NamedModulesPlugin(),
-    new webpack.HotModuleReplacementPlugin()
+    new webpack.HotModuleReplacementPlugin(),
   ]
 });

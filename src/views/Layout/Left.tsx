@@ -1,10 +1,15 @@
 import { Vue, Component, Prop } from 'vue-property-decorator';
+import { observer } from 'mobx-vue';
 import tabBar from '@/common/tabBar';
+import layoutStore from '@/stores/layout';
 import { BAR_ACTIVE_COLOR, BAR_BACKGROUND_COLOR, BAR_TEXT_COLOR } from '@/common/constant';
 
+@observer
 @Component
-class Left extends Vue {
-  @Prop(Boolean) public collapse!: boolean;
+export default class Left extends Vue {
+  constructor(props:any){
+    super(props);
+  }
   public render() {
     return (
       <el-menu
@@ -13,7 +18,7 @@ class Left extends Vue {
         background-color={BAR_BACKGROUND_COLOR}
         text-color={BAR_TEXT_COLOR}
         active-text-color={BAR_ACTIVE_COLOR}
-        collapse={this.$props.collapse}
+        collapse={layoutStore.collapse}
       >
         <el-menu-item index='0'>
           <i class='fa fa-home'></i>
@@ -48,4 +53,3 @@ class Left extends Vue {
     );
   }
 }
-export default (Left as any);
