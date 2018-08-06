@@ -19,6 +19,13 @@ class YoungCard {
       }
     });
   }
+  @action public deleteYoungCard = (id: string) => {
+    axios.post('/api/deleteYoungCard/' + id).then(res => {
+      if (res.data instanceof Array) {
+        this.nopassList = res.data;
+      }
+    })
+  }
 }
 
 export default new YoungCard();

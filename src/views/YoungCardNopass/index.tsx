@@ -21,7 +21,7 @@ export default class YoungCardNopass extends Vue {
           <el-table-column
             fixed
             width='120px'
-            label='logo'>
+            label='一寸照'>
             {
               (scope: any) => (
                 <img style={{ maxWidth: '100%' }} src={scope.row.avatar} />
@@ -30,7 +30,7 @@ export default class YoungCardNopass extends Vue {
           </el-table-column>
           <el-table-column
             prop='name'
-            label='名称'>
+            label='姓名'>
           </el-table-column>
           <el-table-column
             prop='phone'
