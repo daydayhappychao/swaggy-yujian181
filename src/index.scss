@@ -13,3 +13,6 @@ html,body{
   height: 100vh;
   overflow: hidden;
 }
+.el-main{
+  max-height: calc(100vh - 60px);
+}
