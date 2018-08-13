@@ -7,30 +7,22 @@ interface Menu {
 const menu: Menu[] = [
   {
     icon: 'el-icon-location',
-    name: '商家',
+    name: '用户',
     children: [
       {
-        name: '商家分类',
-        path: '/businessCate',
-      },
-      {
-        name: '商家信息',
-        path: '/businessInfo',
-      },
+        name: '用户',
+        path: '/users',
+      }
     ],
   },
   {
     icon: 'el-icon-edit-outline',
-    name: '青年卡',
+    name: '课程',
     children: [
       {
-        name: '未审核',
-        path: '/youngcardNopass',
-      },
-      {
-        name: '已审核',
-        path: '/youngcardPass',
-      },
+        name: '课程',
+        path: '/courses',
+      }
     ],
   },
 ];

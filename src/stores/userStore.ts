@@ -10,7 +10,7 @@ class UserStore {
   @observable public userInfo: UserInfo = {
     username: '',
   };
-
+  @observable public userList:any[] = [];
   @action public login = (username: string, password: string) => {
     service.actionLogin({ username, password }).then((res) => {
       if (res.data.status === 0) {
@@ -21,15 +21,21 @@ class UserStore {
     });
   }
 
-  @observable public setUserInfo = (userInfo: UserInfo) => {
+  @action public setUserInfo = (userInfo: UserInfo) => {
     this.userInfo = userInfo;
   }
 
-  @observable public logout = () => {
+  @action public logout = () => {
     debugger;
     this.userInfo.username = '';
     localStorage.clear();
     router.push('/login');
+  }
+
+  @action getUsers = () => {
+    service.actionGetUsers({}).then(res=>{
+      this.userList = res.data;
+    })
   }
 
 }
