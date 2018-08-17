@@ -3,6 +3,8 @@ import Login from '@/views/Login';
 import Home from '@/views/Home';
 import Users from '@/views/Users';
 import Courses from '@/views/Courses';
+import Video from '@/views/Video';
+
 
 import userStore, { UserInfo } from '@/stores/userStore';
 
@@ -11,6 +13,7 @@ const routes = [
   { path: '/login', component: Login, name: 'login' },
   { path: '/users', component: Users, name: 'users'},
   { path: '/courses', component: Courses, name: 'courses'},
+  { path: '/video/:id', component: Video, name: 'video'},
 ];
 
 const router = new VueRouter({

@@ -8,9 +8,11 @@ import moment from 'moment';
 @Component
 export default class Users extends Vue {
   public addDialogShow = false;
-  public addDialogForm: { name: string, weight: number, id?: string } = { name: '', weight: 0 };
+  public searchForm = { page: 1 };
+  public addDialogForm: { avatar: string, phone: number, nick_name: string, level: number, introduction: string, birthday: string, balance: number, gender: number, create_date: string, id?: number, passwd: string } =
+    { passwd: '', avatar: '', phone: 0, nick_name: '', level: 0, introduction: '', birthday: '', balance: 0, gender: 0, create_date: '' }
   public beforeCreate() {
-    userStore.getUsers();
+    userStore.getUsers(1);
   }
   public render() {
     return (
@@ -23,7 +25,8 @@ export default class Users extends Vue {
                   size='mini'
                   type='primary'
                   onClick={() => {
-                    this.addDialogForm = { name: '', weight: 0 };
+                    this.addDialogForm =
+                      { passwd: '', avatar: '', phone: 0, nick_name: '', level: 0, introduction: '', birthday: '', balance: 0, gender: 0, create_date: '' };
                     this.addDialogShow = true;
                   }}>新增用户</el-button>
               </el-col>
@@ -35,7 +38,6 @@ export default class Users extends Vue {
           border
           style='width: 100%'>
           <el-table-column
-            fixed
             prop='id'
             label='id'>
           </el-table-column>
@@ -62,7 +64,7 @@ export default class Users extends Vue {
           </el-table-column>
           <el-table-column
             prop='introduction'
-            label='简介'>
+            label='个人介绍'>
           </el-table-column>
           <el-table-column
             prop='birthday'
@@ -70,14 +72,14 @@ export default class Users extends Vue {
           </el-table-column>
           <el-table-column
             prop='balance'
-            label='国籍'>
+            label='余额'>
           </el-table-column>
           <el-table-column
             prop='gender'
             label='性别'>
             {
               (scope: any) => (
-                <span>{ scope.row.avatar ? '男' : '女' }</span>
+                <span>{scope.row.avatar ? '男' : '女'}</span>
               )
             }
           </el-table-column>
@@ -99,60 +101,113 @@ export default class Users extends Vue {
                 <div >
                   <el-button
                     size='mini'
-                   
+                    onClick={() => {
+                      this.addDialogForm = scope.row;
+                      this.addDialogShow = true;
+                    }}
                   >编辑</el-button>
                   <el-button
                     size='mini'
                     type='danger'
+                    onClick={() => {
+                      userStore.delUser(scope.row.id, this.searchForm.page);
+                    }}
                   >删除</el-button>
                 </div>
             }
           </el-table-column>
         </el-table >
-
-        {/* <el-dialog
-          title={`${this.addDialogForm.id ? '編輯' : '新增'}分类`}
-          visible={this.addDialogShow}
-          width='30%'
-          before-close={() => { this.addDialogForm = { name: '', weight: 0 }; this.addDialogShow = false; }}
+        <el-pagination
+          style="text-align:right;margin:20px 0"
+          background
+          layout="prev, pager, next"
+          page-count={userStore.userPage}
+          onCurrent-change={(page: number) => {
+            this.searchForm.page = page;
+            userStore.getUsers(page);
+          }}
         >
-          <el-form label-position='right' label-width='80px' model={this.addDialogForm} ref='addDialogShow' >
-            <el-form-item label='分类名称'
-              prop='name'
+        </el-pagination>
+        {
+          this.addDialogShow &&
+          (<el-dialog
+            title={`${this.addDialogForm.id ? '編輯' : '新增'}用户`}
+            visible={true}
+            width='70%'
+            before-close={() => {
+              this.addDialogForm =
+                { passwd: '', avatar: '', phone: 0, nick_name: '', level: 0, introduction: '', birthday: '', balance: 0, gender: 0, create_date: '' };
+              this.addDialogShow = false;
+            }}
+          >
+            <el-form label-position='right' label-width='80px' model={this.addDialogForm} ref='addDialogShow' >
+              <el-form-item label='手机号'
+                prop='phone'
+                rules={[
+                  { required: true, message: '请输入手机号' },
+                ]}>
+                <el-input v-model={this.addDialogForm.phone}></el-input>
+              </el-form-item>
+              <el-form-item label='昵称'
+                prop='nick_name'
+                rules={[
+                  { required: true, message: '请输入昵称' },
+                ]}>
+                <el-input v-model={this.addDialogForm.nick_name}></el-input>
+              </el-form-item>
+              {/* <el-form-item label='简介'
+                prop='introduction'
+                rules={[
+                  { required: true, message: '请输入简介' },
+                ]}>
+                <el-input v-model={this.addDialogForm.introduction}></el-input>
+              </el-form-item> */}
+              {/* <el-form-item label='生日'
+              prop='birthday'
               rules={[
-                { required: true, message: '请输入分类名' },
+                { required: true, message: '请输入生日' },
               ]}>
-              <el-input v-model={this.addDialogForm.name}></el-input>
-            </el-form-item>
-            <el-form-item label='分类权重'
-              prop='weight'
-              rules={[
-                { required: true, message: '请输入类型权重' },
-                { type: 'number', message: '请输入数字类型权重' },
-              ]}>
-              <el-input value={this.addDialogForm.weight}
-                onChange={(e: any) => { this.addDialogForm.weight = (+e ? +e : e); }}
-              ></el-input>
-            </el-form-item>
-            <el-form-item>
-              <span >
-                <el-button onClick={() => { this.addDialogShow = false; }}>取 消</el-button>
-                <el-button type='primary' onClick={() => {
-                  (this.$refs.addDialogShow as Vue).validate((valid: boolean) => {
-                    if (valid) {
-                      businessStore.createCate(this.addDialogForm.name,
-                        this.addDialogForm.weight,
-                        this.addDialogForm.id);
-                      this.addDialogForm = { name: '', weight: 0 };
-                      this.addDialogShow = false;
-                    }
-                  });
-                }}>确 定</el-button>
-              </span>
-            </el-form-item>
-          </el-form>
-        </el-dialog> */}
-
+              <el-input v-model={this.addDialogForm.birthday}></el-input>
+            </el-form-item> */}
+              <el-form-item label='等级'
+                prop='level'
+                rules={[
+                  { required: true, message: '请输入等级' },
+                ]}>
+                <el-input v-model={this.addDialogForm.level}></el-input>
+              </el-form-item>
+              <el-form-item label='余额'
+                prop='balance'
+                rules={[
+                  { required: true, message: '请输入余额' },
+                ]}>
+                <el-input v-model={this.addDialogForm.balance}></el-input>
+              </el-form-item>
+              <el-form-item label='密码'
+                prop='passwd'
+                rules={[
+                  { required: true, message: '请输入密码' },
+                ]}>
+                <el-input v-model={this.addDialogForm.passwd}></el-input>
+              </el-form-item>
+              <el-form-item>
+                <span >
+                  <el-button onClick={() => { this.addDialogShow = false; }}>取 消</el-button>
+                  <el-button type='primary' onClick={() => {
+                    (this.$refs.addDialogShow as Vue).validate((valid: boolean) => {
+                      if (valid) {
+                        userStore.createUser(this.addDialogForm, this.searchForm.page);
+                        this.addDialogForm = { passwd: '', avatar: '', phone: 0, nick_name: '', level: 0, introduction: '', birthday: '', balance: 0, gender: 0, create_date: '' };
+                        this.addDialogShow = false;
+                      }
+                    });
+                  }}>确 定</el-button>
+                </span>
+              </el-form-item>
+            </el-form>
+          </el-dialog>
+          )
+        }
       </el-container>
     );
   }

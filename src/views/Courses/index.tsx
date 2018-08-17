@@ -2,14 +2,18 @@ import { Component, Vue } from 'vue-property-decorator';
 import { observer } from 'mobx-vue';
 import { toJS } from 'mobx';
 import coursesStore from '@/stores/courses';
+import axios from 'axios';
+import { Button } from 'element-ui';
 
 @observer
 @Component
 export default class Users extends Vue {
   public addDialogShow = false;
-  public addDialogForm: { name: string, weight: number, id?: string } = { name: '', weight: 0 };
+  public page = 1;
+  public addDialogForm: { avatar: string, description: string, title: string, id?: string } =
+    { avatar: '', description: '', title: '' };
   public beforeCreate() {
-    coursesStore.getCourses();
+    coursesStore.getCourses(1);
   }
   public render() {
     return (
@@ -22,7 +26,7 @@ export default class Users extends Vue {
                   size='mini'
                   type='primary'
                   onClick={() => {
-                    this.addDialogForm = { name: '', weight: 0 };
+                    this.addDialogForm = { avatar: '', description: '', title: '' };
                     this.addDialogShow = true;
                   }}>新增课程</el-button>
               </el-col>
@@ -72,40 +76,74 @@ export default class Users extends Vue {
                 <div >
                   <el-button
                     size='mini'
-                   
+                    onClick={() => {
+                      this.$router.push('/video/' + scope.row.id)
+                    }}
+                  >查看详情</el-button>
+                  <el-button
+                    size='mini'
+                    onClick={() => {
+                      this.addDialogForm = { id: scope.row.id, avatar: scope.row.avatar, description: scope.row.description, title: scope.row.title };
+                      this.addDialogShow = true;
+                    }}
                   >编辑</el-button>
                   <el-button
                     size='mini'
                     type='danger'
+                    onClick={() => {
+                      coursesStore.delete(scope.row.id, this.page);
+                    }}
                   >删除</el-button>
                 </div>
             }
           </el-table-column>
         </el-table >
 
-        {/* <el-dialog
-          title={`${this.addDialogForm.id ? '編輯' : '新增'}分类`}
+        <el-dialog
+          title={`${this.addDialogForm.id ? '編輯' : '新增'}课程`}
           visible={this.addDialogShow}
-          width='30%'
-          before-close={() => { this.addDialogForm = { name: '', weight: 0 }; this.addDialogShow = false; }}
+          width='70%'
+          before-close={() => { this.addDialogForm = { avatar: '', description: '', title: '' }; this.addDialogShow = false; }}
         >
           <el-form label-position='right' label-width='80px' model={this.addDialogForm} ref='addDialogShow' >
-            <el-form-item label='分类名称'
-              prop='name'
+            <el-form-item label='课程名称'
+              prop='title'
               rules={[
-                { required: true, message: '请输入分类名' },
+                { required: true, message: '请输入课程名称' },
               ]}>
-              <el-input v-model={this.addDialogForm.name}></el-input>
+              <el-input v-model={this.addDialogForm.title}></el-input>
             </el-form-item>
-            <el-form-item label='分类权重'
-              prop='weight'
+            <el-form-item label='课程简介'
+              prop='description'
               rules={[
-                { required: true, message: '请输入类型权重' },
-                { type: 'number', message: '请输入数字类型权重' },
+                { required: true, message: '请输入课程简介' },
               ]}>
-              <el-input value={this.addDialogForm.weight}
-                onChange={(e: any) => { this.addDialogForm.weight = (+e ? +e : e); }}
-              ></el-input>
+              <el-input v-model={this.addDialogForm.description}></el-input>
+            </el-form-item>
+            <el-form-item label='封面图'>
+              <el-button
+                size='mini'
+                type='primary'
+                onClick={() => {
+                  (this.$refs.file as any).click();
+                }}
+              >上传图片</el-button>
+              <img style='width:100%;' src={this.addDialogForm.avatar} />
+              <input type='file' onChange={(ev: any) => {
+                if (ev.target.files) {
+                  const form = new FormData();
+                  form.append('file', ev.target.files[0]);
+                  axios.post('/api/upload', form, {
+                    headers: {
+                      'Content-Type': 'multipart/form-data',
+                    },
+                  }).then((res) => {
+                    if (res.data.status === 0) {
+                      this.addDialogForm.avatar = 'http://' + window.location.host + '/public/' + res.data.message;
+                    }
+                  });
+                }
+              }} ref='file' style={{ display: 'none' }} />
             </el-form-item>
             <el-form-item>
               <span >
@@ -113,10 +151,8 @@ export default class Users extends Vue {
                 <el-button type='primary' onClick={() => {
                   (this.$refs.addDialogShow as Vue).validate((valid: boolean) => {
                     if (valid) {
-                      businessStore.createCate(this.addDialogForm.name,
-                        this.addDialogForm.weight,
-                        this.addDialogForm.id);
-                      this.addDialogForm = { name: '', weight: 0 };
+                      coursesStore.create(this.addDialogForm, this.page);
+                      this.addDialogForm = { avatar: '', description: '', title: '' };
                       this.addDialogShow = false;
                     }
                   });
@@ -124,7 +160,7 @@ export default class Users extends Vue {
               </span>
             </el-form-item>
           </el-form>
-        </el-dialog> */}
+        </el-dialog>
 
       </el-container>
     );
